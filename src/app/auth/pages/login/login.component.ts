@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import Swal from 'sweetalert2';
+
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -24,9 +26,14 @@ export class LoginComponent {
   login() {
     const { email, password } = this.myForm.value;
     this.authService.login(email, password).subscribe((res) => {
-      if (res) {
+      if (res === true) {
         this.router.navigateByUrl('/dashboard');
       } else {
+        Swal.fire({
+          title: 'Error!',
+          text: res,
+          icon: 'error',
+        });
       }
     });
   }
